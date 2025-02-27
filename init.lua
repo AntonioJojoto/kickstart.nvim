@@ -17,7 +17,6 @@ vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 -- vim.opt.relativenumber = true
-
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
@@ -103,9 +102,11 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
-vim.keymap.set('n', '<leader>tn', ':tabnext<CR>', { noremap = true, silent = true }) -- Next tab
-vim.keymap.set('n', '<leader>tp', ':tabprev<CR>', { noremap = true, silent = true }) -- Previous tab
+-- Keybindings for tab navigation
+vim.keymap.set('n', '<leader>tk', ':tabnext<CR>', { noremap = true, silent = true }) -- Next tab
+vim.keymap.set('n', '<leader>tj', ':tabprev<CR>', { noremap = true, silent = true }) -- Previous tab
 vim.keymap.set('n', '<leader>tc', ':tabclose<CR>', { noremap = true, silent = true }) -- Close tab
+vim.keymap.set('n', '<leader>tn', ':tabnew<CR>', { noremap = true, silent = true }) -- New tab
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -367,6 +368,13 @@ require('lazy').setup({
     end,
   },
 
+  -- Commenting
+  {
+    'numToStr/Comment.nvim',
+    opts = {
+      -- add any options here
+    },
+  },
   -- LSP Plugins
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -744,10 +752,9 @@ require('lazy').setup({
         -- No, but seriously. Please read `:help ins-completion`, it is really good!
         mapping = cmp.mapping.preset.insert {
           -- Select the [n]ext item
-          ['<M-n>'] = cmp.mapping.select_next_item(),
+          ['<C-j>'] = cmp.mapping.select_next_item(),
           -- Select the [p]revious item
-          ['<M-p>'] = cmp.mapping.select_prev_item(),
-
+          ['<C-k>'] = cmp.mapping.select_prev_item(),
           -- Scroll the documentation window [b]ack / [f]orward
           ['<M-b>'] = cmp.mapping.scroll_docs(-4),
           ['<M-f>'] = cmp.mapping.scroll_docs(4),
@@ -776,12 +783,12 @@ require('lazy').setup({
           --
           -- <c-l> will move you to the right of each of the expansion locations.
           -- <c-h> is similar, except moving you backwards.
-          ['<M-k>'] = cmp.mapping(function()
+          ['<C-l>'] = cmp.mapping(function()
             if luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
             end
           end, { 'i', 's' }),
-          ['<M-j>'] = cmp.mapping(function()
+          ['<C-h>'] = cmp.mapping(function()
             if luasnip.locally_jumpable(-1) then
               luasnip.jump(-1)
             end
